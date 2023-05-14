@@ -1,0 +1,67 @@
+Exercícios de PHP
+
+1) Utilizando a variável $arrayDeClientes dê um echo no nome do segundo cliente.
+2) Utilize a estrutura de dados $arrayDeNascimento para adicionar na estrutura
+$arrayDeClientes a data de nascimento de cada cliente.
+3) Faça a ordenação e impressão da estrutura $arrayDeClientes resultante do exercício
+2 pela data de nascimento (pode ser ascendente ou descendente).
+
+Optei por colocar os três exercícios em apenas um código.
+
+<?php
+$nomes = ['Francisco Souza', 'Guilherme Rosa', 'Arthur Golveia'];
+
+$cliente1 = new stdClass();
+$cliente1->nome = $nomes[0];
+
+$cliente2 = new stdClass();
+$cliente2->nome = $nomes[1];
+
+$cliente3 = new stdClass();
+$cliente3->nome = $nomes[2];
+
+$arrayDeClientes = [$cliente1, $cliente2, $cliente3];
+
+//atributo do índice 1 ($cliente2) da estrutura $arrayDeCientes
+echo "Nome do segundo cliente: ".$arrayDeClientes[1]->nome."<br><br>";
+
+$arrayDeNascimento = [
+'Francisco Souza' => '10-12-1996',
+'Arthur Golveia' => '14-01-2000',
+'Guilherme Rosa' => '26-05-1985',
+'Marcelo Planalto' => '26-05-1985'
+];
+
+$nomes[] ='Marcelo Planalto';
+$cliente4 = new stdClass();
+$cliente4->nome = $nomes[3];
+
+//adicionando a data de nascimento de cada cliente de acordo com o nome
+$cliente1->dataNasc = $arrayDeNascimento[$cliente1->nome];
+$cliente2->dataNasc = $arrayDeNascimento[$cliente2->nome];
+$cliente3->dataNasc = $arrayDeNascimento[$cliente3->nome];
+$cliente4->dataNasc = $arrayDeNascimento[$cliente4->nome];
+
+//adicionando o quarto cliente à estrutura
+$arrayDeClientes[] = $cliente4;
+
+//função de comparação de datas de nascimento
+function comparar(stdClass $c1, stdClass $c2){
+	if (strtotime($c1->dataNasc) == strtotime($c2->dataNasc)){
+		return 0;
+	}
+    if (strtotime($c1->dataNasc) < strtotime($c2->dataNasc)){
+    	return -1;
+    }else{
+    	return 1;
+    }
+}
+
+//função usada para ordenar a estrutura de acordo com a função criada 'comparar'
+usort($arrayDeClientes,"comparar");
+
+//impressão da estrutura ordenada pela data de nascimento
+foreach ($arrayDeClientes as $cliente){
+	echo $cliente->nome . " nascido em " . $cliente->dataNasc . "<br>";
+}
+?>
