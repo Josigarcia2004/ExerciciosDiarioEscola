@@ -1,0 +1,54 @@
+Exercícios SQL
+
+1) Escreva comandos SQL para inserir os dados abaixo conforme o diagrama
+apresentado.
+a) Pablo é Pai de Lucas
+b) Brenda é Mãe de Lucas
+
+
+CREATE TABLE Aluno(
+	Id NUMBER NOT NULL,
+	Nome VARCHAR2(50),
+	CONSTRAINT pk_alun PRIMARY KEY (Id)
+);
+
+CREATE TABLE Responsavel(
+	Id NUMBER NOT NULL,
+	Nome VARCHAR2(50),
+	CONSTRAINT pk_resp PRIMARY KEY (Id)
+);
+
+CREATE TABLE Parentesco(
+	IdResponsavel NUMBER NOT NULL,
+	IdAluno NUMBER NOT NULL,
+	Parentesco VARCHAR2(50),
+	CONSTRAINT pk_parent PRIMARY KEY (IdResponsavel,IdAluno),
+	CONSTRAINT fk_alun1 FOREIGN KEY (IdAluno) REFERENCES Aluno (Id),
+	CONSTRAINT fk_resp1 FOREIGN KEY (IdResponsavel) REFERENCES Responsavel (Id)
+);
+
+INSERT INTO Aluno (Id, Nome) VALUES (10, 'Lucas');
+INSERT INTO Responsavel (Id, Nome) VALUES (20, 'Brenda');
+INSERT INTO Responsavel (Id,Nome) VALUES (21, 'Pablo');
+INSERT INTO Parentesco (IdResponsavel, IdAluno, Parentesco) VALUES (21,10,'Pai');
+INSERT INTO Parentesco (IdResponsavel, IdAluno, Parentesco) VALUES (20,10,'Mãe');
+
+2) Escreva uma consulta SQL para retornar dados únicos conforme tabela abaixo.
+Caso o aluno tenha mais de dois responsáveis, traga apenas os dois primeiros
+responsáveis encontrados na tabela.
+
+SELECT DISTINCT a.Nome as Aluno, r.Nome as Responsavel, p.Parentesco
+FROM Aluno a
+INNER JOIN Parentesco p ON a.Id = p.IdAluno
+INNER JOIN Responsavel r ON p.IdResponsavel = r.Id
+WHERE a.Id = 10
+LIMIT 2;
+
+===== BÔNUS =====
+
+1) Escreva uma consulta SQL para trazer todos os dados. Seja criativo.
+
+SELECT a.Id as Código_do_aluno, r.Id as Código_do_Resp, r.Nome as Responsavel,'é' as '-',p.Parentesco ,'de' as '--',a.Nome as Aluno
+FROM Aluno a
+INNER JOIN Parentesco p ON a.Id = p.IdAluno
+INNER JOIN Responsavel r ON p.IdResponsavel = r.Id;

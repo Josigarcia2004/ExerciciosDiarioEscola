@@ -1,0 +1,94 @@
+Exercícios JavaScript
+
+1) Percorra o objeto clientes e mostre o nome da cada cliente da seguinte maneira:
+“ultimoSobrenome, primeiroNome”;
+2) Formate a variável “numero” para o seguinte formato: “(XX)_X_XXXX-XXXX”;
+
+Optei por fazer os dois exercícios em apenas um código.
+
+<script>
+
+var clientes = [
+{
+"id": 1,
+"nome": "Luis Santos Silveira",
+"idade": 18
+},
+{
+"id": 2,
+"nome": "Ricardo Lopes Alves",
+"idade": 30
+},
+{
+"id": 3,
+"nome": "Gustavo Silva Junior",
+"idade": 26
+}
+];
+
+var nomes = [];
+//separando os nomes pelos espaços em branco no nome completo
+for(var i = 0; i < clientes.length; i++){
+	nomes[i] = clientes[i].nome.split(" ");
+}
+
+document.write("Nome de cada cliente:<br>");
+for(var i = 0; i < nomes.length; i++){
+	//nomes[i].length-1 é o último elemento da linha i do array 'nomes'
+	document.write(nomes[i][nomes[i].length-1]+", "+nomes[i][0]+"<br>");     
+}
+
+var numero = "5(1)9-876-543-21";
+
+document.write("<br>");
+
+//função criada para obter apenas os números da variável
+function formato(num){
+	var caracter = [];
+    var j=0
+    for(var i = 0; i < num.length; i++){
+    	//retirando os caracteres não númericos
+    	if(num[i] != "(" && num[i] != ")" && num[i] != "-" ){
+			caracter[j] = num[i];
+            j++;
+        }
+	}
+	return caracter;
+}
+
+//recebendo o array somente com números
+n = formato(numero);
+
+//formato (xx)_x_xxxx_xxxx
+numero = "("+n[0]+n[1]+")"+" "+n[2]+" "+n[3]+n[4]+n[5]+n[6]+"-"+n[7]+n[8]+n[9]+n[10];
+
+
+document.write("Variável formatada: " + numero);
+
+//Esse método foi utilizado tendo em vista que o telefone já está atribuído
+//à uma variável e ela precisa ser manipulada. Se o método de entrada
+//acontecesse por meio de um input, faria a formatação através de expressões
+//regulares.
+</script>
+
+===== BÔNUS =====
+
+3) Qual a ordem dos print no console?
+A ordem seria:
+A função é: b
+A função é: c
+A função é: d
+A função é: a
+
+Porém, apenas aparecem:
+A função é: c
+A função é: d
+
+4) Existe algum erro nesse código? Se sim, comente sobre?
+Sim, o primeiro erro é a falta de um ; (ponto e vírgula) após o comando 'alertUser("a")' dentro da função a().
+Além disso, a primeira função a ser chamada é b(), porém não há o retorno da função alertUser('b') dentro dela porque 'return' é executado antes (sem nada a retornar),
+e isso faz com que a função b() seja finalizada antes de apresentar algo.
+As funções c() e d() são chamadas com a expressão 'await', que faz a função async a() esperar o retorno do objeto Promise.
+Em c() esse valor retornado é resolvido, pois há o parâmetro resolve(), e assim a próxima função é chamada.
+Porém, após executar e apresentar alertUser('d') dentro da função d(), o que vem depois (alertUser('a')) não é apresentado,
+pois não há o parâmetro resolve() dentro da Promise retornada na função d(). Logo, o resultado apresentado é apenas 'A função é: c' e 'A função é: d'.
